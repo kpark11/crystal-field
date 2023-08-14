@@ -19,3 +19,9 @@ The idea is simple.
 
 6. Also, simple overlap model can be used by typing in rho and Qeff (with ion, L, S, Z, and d).
 
+
+
+
+
+FUTURE:
+I will add citations and move it to the website in order to input and visualize using dashboard
