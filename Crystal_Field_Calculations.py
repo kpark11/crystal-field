@@ -664,10 +664,10 @@ class LS():
         #  3F    3d8
         elif ion == "Co1":
             r_l = np.array([5.388,1.576,6.637,-228,-228,0])
-        elif ion == "Ni2": # r^4 is taken from "NiO - from first principles" by Radwanski and Ropka
-            r_l = np.array([7.094,1.130,10.5,-343,-324,0.53])
-        #elif ion == "Ni2":
-        #    r_l = np.array([7.094,1.130,3.003,-343,-324,0.53])
+        #elif ion == "Ni2": # r^4 is taken from "NiO - from first principles" by Radwanski and Ropka
+        #    r_l = np.array([7.094,1.130,10.5,-343,-324,0.53])
+        elif ion == "Ni2":
+            r_l = np.array([7.094,1.130,3.003,-343,-324,0.53])
         elif ion == "Cu3":
             r_l = np.array([9.018,0.8763,1.662,-438,0,0])
         
@@ -2057,3 +2057,5 @@ B06 = - (1/32)*np.sqrt(13/np.pi)*r_6*gamma*gamma06*e/e_0*1000
 print(B06)
 
 """
+
+

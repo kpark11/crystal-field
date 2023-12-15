@@ -5,6 +5,9 @@ Created on Fri Feb 17 11:26:31 2023
 @author: brian
 """
 import numpy as np
+import sys
+cef_dir = r'C:\Users\kit\OneDrive - University of Tennessee\Desktop\Research\Python program\CEF calculations\CEF'
+sys.path.append(cef_dir)
 import Crystal_Field_Calculations as cef
 import matplotlib.pyplot as plt
 from scipy import optimize
@@ -41,6 +44,9 @@ O6_oct = O_pos6_oct - Ni_pos_oct
 d_oct = np.array([O1_oct,O2_oct,O3_oct,O4_oct,O5_oct,O6_oct])
 
 B_oct = Ni2_oct.PC(ion,L,S,d_oct,Z)
+
+
+
 
 #################################### Crystal Field ##########################################
 

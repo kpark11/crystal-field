@@ -4,8 +4,11 @@ Created on Sun Sep  6 22:01:34 2020
 
 @author: brian
 """
+import sys
+cef_dir = r'C:\Users\kit\OneDrive - University of Tennessee\Desktop\Research\Python program\CEF calculations\CEF'
+sys.path.append(cef_dir)
+import Crystal_Field_Calculations as cef
 import numpy as np
-import Crystal_Field_Calcuations as cef
 import matplotlib.pyplot as plt
 from scipy import optimize
 
