@@ -490,10 +490,11 @@ class LS():
         print('[x[i]    y[i]    z[i]]:')
         print(d)
         print("r[i]: " + str(r))
-        
+
         r_l = elements.r_l(ion)
         r_2 = r_l[1]*a0**2
         r_4 = r_l[2]*a0**4
+        print(r_l)
         
         theta = elements.theta(ion)
         alpha = theta[0]
