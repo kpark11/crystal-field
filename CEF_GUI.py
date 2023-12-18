@@ -114,7 +114,7 @@ class StartUp:
         self.win.after(2000, progStatus.set("Ready"))
         progress['value'] = 80
         self.win.update()
-        self.win.after(3000, self.win.destroy)
+        self.win.after(2500, self.win.destroy)
         progress['value'] = 100
         self.win.update()
     
