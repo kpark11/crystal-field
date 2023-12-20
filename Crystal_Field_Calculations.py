@@ -319,8 +319,8 @@ class LS():
         theta = np.arctan2(xyz_position[:,1],xyz_position[:,0])
         phi = np.arccos(xyz_position[:,2]/r)
         
-        print('r:[], theta:[], phi:[]')
-        print(r,theta,phi)
+        #print('r: [], theta: [], phi: []')
+        #print(r,theta,phi)
         # r = [:,0]
         # phi = [:,1]
         # theta = [:,2]
@@ -485,20 +485,23 @@ class LS():
         
         d_sp = elements.Spherical_position(d)
         r = d_sp[0,:]
+        theta_p = d_sp[1,:]
+        phi = d_sp[2,:]
         
         print('---------------- Ligand positions (Angstrom) ---------------')
         print('[x[i]    y[i]    z[i]]:')
         print(d)
-        print("r[i]: " + str(r))
-
+        print('r[i]: ' + str(r) + '\n' + 'theta[i]: ' + str(theta_p) + '\n' + 'phi[i]' + str(phi))
+                
         r_l = elements.r_l(ion)
         r_2 = r_l[1]*a0**2
         r_4 = r_l[2]*a0**4
-        print(r_l)
+        print("r2: " + str(r_2) + "\n" + "r_4: " + str(r_4))
         
         theta = elements.theta(ion)
         alpha = theta[0]
         beta = theta[1]
+        print("alpha: " + str(alpha) + "\n" + "beta: " + str(beta))
         
         #r_2 = cef.r_l(L,S)[]
         
