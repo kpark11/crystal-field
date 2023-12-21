@@ -174,7 +174,10 @@ def OpenLog():
     for line in lines:
         logging.insert(tk.END,line)
         
-
+def ClearLog():
+    f = open('tracking.log','w+')
+    f.write('')
+    f.close()
 
 class MyWindow:
     def __init__(self, win):
@@ -198,7 +201,8 @@ class MyWindow:
         
         # create more pulldown menus ()
         editmenu = Menu(menubar, tearoff=0)
-        editmenu.add_command(label="Log", command=OpenLog)
+        editmenu.add_command(label="Open the Log", command=OpenLog)
+        editmenu.add_command(label="Clear the log", command=ClearLog)
         menubar.add_cascade(label="Diagnostics", menu=editmenu)
 
         helpmenu = Menu(menubar, tearoff=0)
