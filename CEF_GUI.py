@@ -85,6 +85,29 @@ def theta():
     return i
 theta_ion = theta()
 
+def ParamR():
+    f = open('r_l.txt','r')
+    lines = f.readlines()
+    f.close()
+    paramR = tk.Tk()
+    paramR.wm_title("r_l parameters")
+    paramR_text = scrolledtext.ScrolledText(paramR,width=80,height=15)
+    paramR_text.grid(row=0,column=0,pady=5)
+    for line in lines:
+        paramR_text.insert(tk.END,line)
+        
+def ParamTh():
+    f = open('theta.txt','r')
+    lines = f.readlines()
+    f.close()
+    paraTh = tk.Tk()
+    paraTh.wm_title("theta parameters")
+    paraTh_text = scrolledtext.ScrolledText(paraTh,width=80,height=15)
+    paraTh_text.grid(row=0,column=0,pady=5)
+    paraTh_text.insert(tk.END, "theta: [alpha,  beta]\n\n")
+    for line in lines:
+        paraTh_text.insert(tk.END,line)
+
 class StartUp:
     def __init__(self,t):
 
@@ -191,13 +214,20 @@ class MyWindow:
         filemenu = Menu(menubar, tearoff=0)
         
         filemenu.config(bg=color,fg='black',activebackground='black',activeforeground='white',relief=tk.FLAT)
-
+        
         
         filemenu.add_command(label="Open Existing Work Space", command=hello)
         filemenu.add_command(label="Save Work Space", command=hello)
         filemenu.add_separator()
         filemenu.add_command(label="Create New Work Space", command=hello)
         menubar.add_cascade(label="Work Space", menu=filemenu)
+        
+        paramMenu = Menu(menubar,tearoff=0)
+        paramMenu.add_command(label="Open to see r_l parameters", command=ParamR)
+        paramMenu.add_command(label="Open to see theta parameters", command=ParamTh)
+        paramMenu.add_separator()
+        menubar.add_cascade(label="Parameters", menu=paramMenu)
+        
         
         # create more pulldown menus ()
         editmenu = Menu(menubar, tearoff=0)
@@ -216,8 +246,6 @@ class MyWindow:
         
 
         
-        
-        
         ####################################################################################
         
         frame = Frame(win)
@@ -229,11 +257,8 @@ class MyWindow:
         frame1.grid(row=0,column=0,padx=5)
 
         
-       
-
-
-
-        self.ion_l = Label(frame1, text = 'Choose an ion with correct oxidation number')
+      
+        self.ion_l = Label(frame1, text = 'Choose a metal ion with the ' + '\n' + 'correct oxidation number')
         #self.ion_l.place(x=10, y=10)
         #self.ion_l.pack(side = LEFT,padx=10)
         self.ion_l.grid(row=0,column=0,pady=5)
@@ -296,10 +321,7 @@ class MyWindow:
         self.lig_pos = scrolledtext.ScrolledText(frame1,width=50,height=5)
         #self.lig_pos.place(x=10,y=220)
         self.lig_pos.grid(row=3,column=2,pady=10)
-            
-
         
-
         
         
 
