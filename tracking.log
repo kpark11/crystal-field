@@ -1,0 +1,497 @@
+ERROR:root:
+Date: 2023-12-21 01:33:47.433190
+-------------------------------
+something is wrong
+
+
+INFO:root:
+Date: 2023-12-21 01:33:47.433190
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:34:00.115507
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+INFO:root:
+Date: 2023-12-21 01:33:47.433190
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:34:00.115507
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+Date: 2023-12-21 01:34:06.296303
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+ERROR:root:
+Date: 2023-12-21 01:36:29.616539
+-------------------------------
+something is wrong
+
+
+ERROR:root:
+Date: 2023-12-21 01:36:29.616539
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:36:29.962612
+-------------------------------
+something is wrong
+
+
+ERROR:root:
+Date: 2023-12-21 01:36:29.616539
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:36:29.962612
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:36:30.335129
+-------------------------------
+something is wrong
+
+
+ERROR:root:
+Date: 2023-12-21 01:37:05.744199
+-------------------------------
+something is wrong
+
+
+
+
+
+ERROR:root:
+Date: 2023-12-21 01:37:05.744199
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.235442
+-------------------------------
+something is wrong
+
+
+
+
+
+ERROR:root:
+Date: 2023-12-21 01:37:05.744199
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.235442
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.981170
+-------------------------------
+something is wrong
+
+
+
+
+
+ERROR:root:
+Date: 2023-12-21 01:37:05.744199
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.235442
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.981170
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:14.005862
+-------------------------------
+something is wrong
+
+
+
+
+
+INFO:root:
+Date: 2023-12-21 01:37:05.744199
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.235442
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.981170
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:14.005862
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:20.327027
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+
+
+
+INFO:root:
+Date: 2023-12-21 01:37:05.744199
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.235442
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:06.981170
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:14.005862
+-------------------------------
+something is wrong
+
+
+
+
+Date: 2023-12-21 01:37:20.327027
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+
+
+Date: 2023-12-21 01:37:28.202502
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+
+
+
+ERROR:root:
+Date: 2023-12-21 01:39:12.516269
+-------------------------------
+something is wrong
+
+
+ERROR:root:
+
+
+
+
+
+
+
+INFO:root:
+Date: 2023-12-21 01:39:12.516269
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:39:20.978857
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+INFO:root:
+
+
+
+
+
+
+
+INFO:root:
+Date: 2023-12-21 01:39:12.516269
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:39:20.978857
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+Date: 2023-12-21 01:39:26.000210
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+
+INFO:root:
+
+
+
+
+
+
+
+ERROR:root:
+Date: 2023-12-21 01:39:12.516269
+-------------------------------
+something is wrong
+
+Date: 2023-12-21 01:39:20.978857
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+Date: 2023-12-21 01:39:26.000210
+----------- Initializing ---------
+L: 3
+S: 3/2
+ligand numbers: 2
+ligand positions:
+ion:M    X:0    Y:0    Z:0    
+ligand0:O    X:0    Y:0    Z:1    
+ligand1:O    X:0    Y:0    Z:-2
+-------- Point Charge Modeling (meV) --------
+B20: 106.07652414068251 
+B21: 0.0 
+B22: 0.0 
+B40: 6.755792303416805 
+B41: 0.0 
+B42: 0.0 
+B43: 0.0 
+B44: 0.0 
+SO value (meV): -23.43300170056641
+SS value (meV): 0.029756192635639885
+molecular field (meV): 0.029756192635639885
+
+Date: 2023-12-21 01:39:30.314394
+-------------------------------
+something is wrong
+
+
+ERROR:root:
+
+
+
+
+
+
+

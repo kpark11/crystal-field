@@ -22,10 +22,12 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
-NavigationToolbar2Tk) 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,NavigationToolbar2Tk) 
 
+import logging
+import datetime
 
+logging.basicConfig(filename='tracking.log', encoding='utf-8', level=logging.DEBUG)
 
 
 def convert_to_float(frac_str):
@@ -69,7 +71,7 @@ for i in rl:
     ions.append(i[0])
     
 def theta():
-    f = open('theta.txt')
+    f = open('theta.txt','r')
     lines = f.readlines()
     f.close()
     i = []
@@ -160,31 +162,7 @@ def typeB(B):
     "B42: " + str(B[5]) + ' \n' +\
     "B43: " + str(B[6]) + ' \n' +\
     "B44: " + str(B[7]) + ' \n'
-    
 
-def bar(): 
-    import time 
-    progress['value'] = 20
-    root.update_idletasks() 
-    time.sleep(1) 
-  
-    progress['value'] = 40
-    root.update_idletasks() 
-    time.sleep(1) 
-  
-    progress['value'] = 50
-    root.update_idletasks() 
-    time.sleep(1) 
-  
-    progress['value'] = 60
-    root.update_idletasks() 
-    time.sleep(1) 
-  
-    progress['value'] = 80
-    root.update_idletasks() 
-    time.sleep(1) 
-    progress['value'] = 100
-    
 
 
 class MyWindow:
@@ -345,12 +323,12 @@ class MyWindow:
                 O42 = CEF.Olm(L_value,S_value,4,2)
                 O43 = CEF.Olm(L_value,S_value,4,3)
                 O44 = CEF.Olm(L_value,S_value,4,4)
-                O2m1 = CEF.Olm(L_value,S_value,2,-1)
-                O2m2 = CEF.Olm(L_value,S_value,2,-2)
-                O4m1 = CEF.Olm(L_value,S_value,4,-1)
-                O4m2 = CEF.Olm(L_value,S_value,4,-2)
-                O4m3 = CEF.Olm(L_value,S_value,4,-3)
-                O4m4 = CEF.Olm(L_value,S_value,4,-4)
+                #O2m1 = CEF.Olm(L_value,S_value,2,-1)
+                #O2m2 = CEF.Olm(L_value,S_value,2,-2)
+                #O4m1 = CEF.Olm(L_value,S_value,4,-1)
+                #O4m2 = CEF.Olm(L_value,S_value,4,-2)
+                #O4m3 = CEF.Olm(L_value,S_value,4,-3)
+                #O4m4 = CEF.Olm(L_value,S_value,4,-4)
                 ######################################################################
                 Hcf = B[0]*O20 + B[1]*O21 + B[2]*O22 + B[3]*O40 + B[4]*O41 + B[5]*O42 + B[6]*O43 + B[7]*O44
                 Ecf_val,Ecf_val_excitation,H_cf_vt = CEF.Diag(Hcf)
@@ -481,6 +459,8 @@ class MyWindow:
                 win.update()
                 
                 
+                today = datetime.datetime.now()
+                self.results1.insert(tk.END,"\n" + "Date: {today}\n".format(today=today))
                 self.results1.insert(tk.END,"----------- Initializing ---------\n")
                 self.results1.insert(tk.END, 'L: ' + self.L.get() + '\n')
                 self.results1.insert(tk.END, 'S: ' + self.S.get() + '\n')
@@ -491,17 +471,30 @@ class MyWindow:
                 self.results1.insert(tk.END,'SO value (meV): ' + str(SO_val) + '\n')
                 self.results1.insert(tk.END,'SS value (meV): ' + str(SS_val) + '\n')
                 self.results1.insert(tk.END,'molecular field (meV): ' + str(g_val) + '\n')
+                
+                
+                
                 self.progress['value'] = 100
                 win.update()
                 
+                #logging.debug('This message should go to the log file')
+                logging.info(self.results1.get("1.0", tk.END))
+                logging.info("\n\n\n\n\n\n\n")
+                #logging.warning('And this, too')
+                #logging.error('And non-ASCII stuff, too, like Øresund and Malmö')
+                
             except:
+                today = datetime.datetime.now()
+                self.results1.insert(tk.END,"\n" + "Date: {today}\n".format(today=today))
                 self.results1.insert(tk.END,"-------------------------------\n")
                 self.results1.insert(tk.END,'something is wrong\n')
                 print('something is wrong')
+                logging.error(self.results1.get("1.0", tk.END))
+                logging.error("\n\n\n\n\n\n\n")
                 self.progress['value'] = 100
                 win.update()
                 
-                
+        
         ####################################################################################
         
         
@@ -540,8 +533,12 @@ class MyWindow:
         self.btn.grid(row=1,column=1,padx=5)
 
         ####################################################################################
-
         
+        
+        def Logging():
+            logs = self.results1.get()
+            
+            f = open('Log.l','r')
         
 
 #styles = ThemedStyle().tk.call('ttk::themes')
