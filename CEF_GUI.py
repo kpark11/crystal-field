@@ -163,6 +163,17 @@ def typeB(B):
     "B43: " + str(B[6]) + ' \n' +\
     "B44: " + str(B[7]) + ' \n'
 
+def OpenLog():
+    f = open('tracking.log','r')
+    lines = f.readlines()
+    f.close()
+    log = tk.Tk()
+    log.wm_title("Logs")
+    logging = scrolledtext.ScrolledText(log,width=80,height=15)
+    logging.grid(row=0,column=0,pady=5)
+    for line in lines:
+        logging.insert(tk.END,line)
+        
 
 
 class MyWindow:
@@ -187,10 +198,7 @@ class MyWindow:
         
         # create more pulldown menus ()
         editmenu = Menu(menubar, tearoff=0)
-        #editmenu.add_command(label="Calibrate", command=lambda: menuAction(0))
-        editmenu.add_command(label="Simulation Mode", command=hello)
-        #editmenu.add_command(label="Global Variables", command=lambda: menuAction(1))
-        editmenu.add_command(label="Log", command=hello)
+        editmenu.add_command(label="Log", command=OpenLog)
         menubar.add_cascade(label="Diagnostics", menu=editmenu)
 
         helpmenu = Menu(menubar, tearoff=0)
@@ -292,6 +300,7 @@ class MyWindow:
         
 
         def initialize():
+            clear_results()
             self.progress["value"] = 0
             win.update()
             try: 
@@ -456,6 +465,7 @@ class MyWindow:
                 
                 
                 self.progress['value'] = 50
+                
                 win.update()
                 
                 
@@ -478,8 +488,7 @@ class MyWindow:
                 win.update()
                 
                 #logging.debug('This message should go to the log file')
-                logging.info(self.results1.get("1.0", tk.END))
-                logging.info("\n\n\n\n\n\n\n")
+                logging.info(self.results1.get("1.0", tk.END) + "\n\n\n\n\n\n\n")
                 #logging.warning('And this, too')
                 #logging.error('And non-ASCII stuff, too, like Øresund and Malmö')
                 
@@ -489,8 +498,7 @@ class MyWindow:
                 self.results1.insert(tk.END,"-------------------------------\n")
                 self.results1.insert(tk.END,'something is wrong\n')
                 print('something is wrong')
-                logging.error(self.results1.get("1.0", tk.END))
-                logging.error("\n\n\n\n\n\n\n")
+                logging.error(self.results1.get("1.0", tk.END) + "\n\n\n\n\n\n\n")
                 self.progress['value'] = 100
                 win.update()
                 
@@ -522,7 +530,6 @@ class MyWindow:
         self.results.grid(row=0,column=0,pady=5)
         
         self.results1 = scrolledtext.ScrolledText(frame3,width=80,height=15)
-        self.results1.place(x=10,y=570)
         self.results1.grid(row=1,column=0,pady=5)
         
         def clear_results():
@@ -533,12 +540,6 @@ class MyWindow:
         self.btn.grid(row=1,column=1,padx=5)
 
         ####################################################################################
-        
-        
-        def Logging():
-            logs = self.results1.get()
-            
-            f = open('Log.l','r')
         
 
 #styles = ThemedStyle().tk.call('ttk::themes')
