@@ -230,13 +230,16 @@ def OpenExistingWorkSpace(widgets):
         for keys in data.keys():
             if str(widget) == keys:
                 try:
+                    widget.set('')
                     widget.set(data[str(widget)])
                 except:
                     try:
+                        widget.delete(0,tk.END)
                         widget.insert(0,data[str(widget)])
                     except:
                         for text in widget.winfo_children():
                             try:    
+                                text.delete('1.0',tk.END)
                                 text.insert(tk.END,str(data[str(text)]))
                             except:
                                 pass
