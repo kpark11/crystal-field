@@ -343,6 +343,7 @@ class LS():
             Sm = elements.Sm(L,S)
             SO_matrix = Lz*Sz + (1/2)*(np.dot(Lp,Sm) + np.dot(Lm,Sp))
             H_SO = SO_val*SO_matrix
+            return H_SO, SO_val
         else:
             print('SO coupling value (meV): ' + str(SO))
             Lz = elements.Lz(L,S)
@@ -353,7 +354,7 @@ class LS():
             Sm = elements.Sm(L,S)
             SO_matrix = Lz*Sz + (1/2)*(np.dot(Lp,Sm) + np.dot(Lm,Sp))
             H_SO = SO*SO_matrix
-        return H_SO
+            return H_SO
     
     
     
@@ -374,6 +375,7 @@ class LS():
             SO_matrix = Lz*Sz + (1/2)*(np.dot(Lp,Sm) + np.dot(Lm,Sp))
             H_SS_matrix = np.dot(SO_matrix,SO_matrix) + (1/2)*(SO_matrix) - (1/3)*(L_tot*(L_tot + self.i)*S_tot*(S_tot+ self.i))
             H_SS = -p_val*H_SS_matrix
+            return H_SS, p_val
         else:
             print('SS coupling value (meV): ' + str(p_val))
             Lz = elements.Lz(L,S)
@@ -387,7 +389,7 @@ class LS():
             SO_matrix = Lz*Sz + (1/2)*(np.dot(Lp,Sm) + np.dot(Lm,Sp))
             H_SS_matrix = np.dot(SO_matrix,SO_matrix) + (1/2)*(SO_matrix) - (1/3)*(L_tot*(L_tot + self.i)*S_tot*(S_tot+ self.i))
             H_SS = -p_val*H_SS_matrix
-        return H_SS
+            return H_SS
     
             
     def Molecular_Field_Sz(self,ion,L,S,Hm=None):
@@ -403,6 +405,7 @@ class LS():
             #mu_B = 5.7883818012*(10**-5) * 8065.548 #1/(cmT)
             #print('g: ' + str(g))
             Hg_z = g*Hm_val*mu_B*Sz
+            return Hg_z, Hm_val
         else:
             print('Molecular Field value (meV): ' + str(Hm))
             Sz = elements.Sz(L,S)
@@ -411,7 +414,7 @@ class LS():
             #mu_B = 5.7883818012*(10**-5) * 8065.548 #1/(cmT)
             #print('g: ' + str(g))
             Hg_z = g*Hm*mu_B*Sz
-        return Hg_z
+            return Hg_z
     
     def Molecular_Field_Sx(self,ion,L,S,Hm=None):
         elements = LS(L,S)
@@ -425,6 +428,7 @@ class LS():
             #mu_B = 5.7883818012e-5 * 8065.548 #1/(cmT)
             #print('g: ' + str(g))
             Hg_x = g*Hm_val*mu_B*Sx
+            return Hg_x, Hm_val
         else:
             Sx = elements.Sx(L,S)
             g = 2.002319
@@ -432,7 +436,7 @@ class LS():
             #mu_B = 5.7883818012e-5 * 8065.548 #1/(cmT)
             #print('g: ' + str(g))
             Hg_x = g*Hm*mu_B*Sx
-        return Hg_x
+            return Hg_x
     
     def Molecular_Field_Sy(self,ion,L,S,Hm=None):
         elements = LS(L,S)
@@ -446,6 +450,7 @@ class LS():
             #mu_B = 5.7883818012e-5 * 8065.548 #1/(cmT)
             #print('g: ' + str(g))
             Hg_y = g*Hm_val*mu_B*Sy
+            return Hg_y, Hm_val
         else:
             Sy = elements.Sy(L,S)
             g = 2.002319
@@ -454,7 +459,7 @@ class LS():
             #print('g: ' + str(g))
             Hm
             Hg_y = g*Hm*mu_B*Sy
-        return Hg_y
+            return Hg_y
         
     
     def PC(self,ion,L,S,d,Z):
@@ -807,15 +812,20 @@ class LS():
             ax2.set_yticks([])
             ax2.set_title('Crystal Field excitations')
             ax2.set_ylim([0.95,1.05])
+            
+        
         if SaveFig == False:
             pass
         else:
             plt.savefig("Crystal_Field.pdf")
         plt.show()
         
-        
-        
         return E_val,E_excitation,E_state
+
+        
+        
+        
+        
     
     def Zeeman_z(self,L,S,H,Fields,savefunction=False):
         print('--------- Applying Magnetic Field inducing Zeeman splitting in Z-axis --------')
