@@ -26,6 +26,7 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,NavigationToolb
 
 import logging
 import datetime
+import json
 
 logging.basicConfig(filename='tracking.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -107,6 +108,7 @@ def ParamTh():
     paraTh_text.insert(tk.END, "theta: [alpha,  beta]\n\n")
     for line in lines:
         paraTh_text.insert(tk.END,line)
+        
 
 class StartUp:
     def __init__(self,t):
@@ -201,6 +203,45 @@ def ClearLog():
     f = open('tracking.log','w+')
     f.write('')
     f.close()
+    
+def SaveWorkSpace(widgets):
+    path = asksaveasfilename(filetypes=[("json file", ".json")],defaultextension=".json")
+    data = {}
+    for widget in widgets.winfo_children():
+        if widget.winfo_class() != 'TLabel' and widget.winfo_class() != 'TButton':
+            try:
+                data[str(widget)] = widget.get()
+            except:
+                for text in widget.winfo_children():
+                    try:
+                        data[str(text)] = text.get('1.0',tk.END)
+                    except:
+                        pass
+        else:
+            pass
+        with open(path,'w') as f:
+            json.dump(data, f)
+            
+def OpenExistingWorkSpace(widgets):
+    path = askopenfilename(filetypes=[("json file", ".json")],defaultextension=".json")
+    with open(path, "rb") as f:
+        data = json.load(f)
+    for widget in widgets.winfo_children():
+        for keys in data.keys():
+            if str(widget) == keys:
+                try:
+                    widget.set(data[str(widget)])
+                except:
+                    try:
+                        widget.insert(0,data[str(widget)])
+                    except:
+                        for text in widget.winfo_children():
+                            try:    
+                                text.insert(tk.END,str(data[str(text)]))
+                            except:
+                                pass
+            else:
+                pass
 
 class MyWindow:
     def __init__(self, win):
@@ -215,17 +256,13 @@ class MyWindow:
         
         filemenu.config(bg=color,fg='black',activebackground='black',activeforeground='white',relief=tk.FLAT)
         
-        
-        filemenu.add_command(label="Open Existing Work Space", command=hello)
-        filemenu.add_command(label="Save Work Space", command=hello)
-        filemenu.add_separator()
-        filemenu.add_command(label="Create New Work Space", command=hello)
+        filemenu.add_command(label="Open Existing Work Space", command=lambda: OpenExistingWorkSpace(frame1))
+        filemenu.add_command(label="Save Work Space", command=lambda: SaveWorkSpace(frame1))
         menubar.add_cascade(label="Work Space", menu=filemenu)
         
         paramMenu = Menu(menubar,tearoff=0)
         paramMenu.add_command(label="Open to see r_l parameters", command=ParamR)
         paramMenu.add_command(label="Open to see theta parameters", command=ParamTh)
-        paramMenu.add_separator()
         menubar.add_cascade(label="Parameters", menu=paramMenu)
         
         
@@ -240,7 +277,6 @@ class MyWindow:
         #helpmenu.add_command(label="About", command=snpAboutL)
         menubar.add_cascade(label="Help", menu=helpmenu)
         
-        filemenu.add_command(label="Open Existing Work Space")
         # display the menu
         win.config(menu=menubar)
         
