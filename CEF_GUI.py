@@ -361,9 +361,123 @@ class MyWindow:
         #self.lig_pos.place(x=10,y=220)
         self.lig_pos.grid(row=3,column=2,pady=10)
         
+        ##############################################################################
+        frame4 = Frame(win)
+        frame4.grid(row=0,column=1,rowspan=2)
         
+        self.B02_l = Label(frame4,text='B02:')
+        self.B02_l.grid(row=0,column=0)
+        self.B02 = Entry(frame4,width=15,state='disabled')
+        self.B02.grid(row=0,column=1)
+        
+        self.B12_l = Label(frame4,text='B12:')
+        self.B12_l.grid(row=1,column=0)
+        self.B12 = Entry(frame4,width=15,state='disabled')
+        self.B12.grid(row=1,column=1)
+        
+        self.B22_l = Label(frame4,text='B22:')
+        self.B22_l.grid(row=2,column=0)
+        self.B22 = Entry(frame4,width=15,state='disabled')
+        self.B22.grid(row=2,column=1)
+        
+        self.B04_l = Label(frame4,text='B04:')
+        self.B04_l.grid(row=3,column=0)
+        self.B04 = Entry(frame4,width=15,state='disabled')
+        self.B04.grid(row=3,column=1)
+        
+        self.B14_l = Label(frame4,text='B14:')
+        self.B14_l.grid(row=4,column=0)
+        self.B14 = Entry(frame4,width=15,state='disabled')
+        self.B14.grid(row=4,column=1)
+        
+        self.B24_l = Label(frame4,text='B24:')
+        self.B24_l.grid(row=5,column=0)
+        self.B24 = Entry(frame4,width=15,state='disabled')
+        self.B24.grid(row=5,column=1)
+        
+        self.B34_l = Label(frame4,text='B34:')
+        self.B34_l.grid(row=6,column=0)
+        self.B34 = Entry(frame4,width=15,state='disabled')
+        self.B34.grid(row=6,column=1)
+        
+        self.B44_l = Label(frame4,text='B44:')
+        self.B44_l.grid(row=7,column=0)
+        self.B44 = Entry(frame4,width=15,state='disabled')
+        self.B44.grid(row=7,column=1)
+        
+        self.SO_l = Label(frame4,text='SO:')
+        self.SO_l.grid(row=8,column=0)
+        self.SO = Entry(frame4,width=15,state='disabled')
+        self.SO.grid(row=8,column=1)
+        
+        self.SS_l = Label(frame4,text='SS:')
+        self.SS_l.grid(row=9,column=0)
+        self.SS = Entry(frame4,width=15,state='disabled')
+        self.SS.grid(row=9,column=1)
+        
+        self.m_l = Label(frame4,text='m:')
+        self.m_l.grid(row=10,column=0)
+        self.m = Entry(frame4,width=15,state='disabled')
+        self.m.grid(row=10,column=1)
+        
+        def Binsert(B,SO_val,SS_val,m_val):
+            n = 0
+            m = np.array([SO_val,SS_val,m_val])
+            BB = np.append(B,m)
+            for i in frame4.winfo_children():
+                if i.winfo_class() == 'TEntry':
+                    try:
+                        i.configure(state='normal')
+                        i.delete(0,tk.END)
+                        i.insert(0,BB[n])
+                        n = n+1
+                    except:
+                        pass
+            return BB
+                    
+        def Bget():
+            for i in frame4.winfo_children():
+                if i.winfo_class() == 'TEntry':
+                    val = i.get()
+                    print(val)
         
 
+        
+        self.Energies_btn = Button(frame4,text='Get Energies',command=Bget)
+        self.Energies_btn.grid(row=11,column=0,columnspan=2)
+            
+        ##############################################################################
+        def BgetEnergy(B):
+            O20 = CEF.Olm(L_value,S_value,2,0)
+            O21 = CEF.Olm(L_value,S_value,2,1)
+            O22 = CEF.Olm(L_value,S_value,2,2)
+            O40 = CEF.Olm(L_value,S_value,4,0)
+            O41 = CEF.Olm(L_value,S_value,4,1)
+            O42 = CEF.Olm(L_value,S_value,4,2)
+            O43 = CEF.Olm(L_value,S_value,4,3)
+            O44 = CEF.Olm(L_value,S_value,4,4)
+            #O2m1 = CEF.Olm(L_value,S_value,2,-1)
+            #O2m2 = CEF.Olm(L_value,S_value,2,-2)
+            #O4m1 = CEF.Olm(L_value,S_value,4,-1)
+            #O4m2 = CEF.Olm(L_value,S_value,4,-2)
+            #O4m3 = CEF.Olm(L_value,S_value,4,-3)
+            #O4m4 = CEF.Olm(L_value,S_value,4,-4)
+            ######################################################################
+            Hcf = B[0]*O20 + B[1]*O21 + B[2]*O22 + B[3]*O40 + B[4]*O41 + B[5]*O42 + B[6]*O43 + B[7]*O44
+            Ecf_val,Ecf_val_excitation,H_cf_vt = CEF.Diag(Hcf)
+            return Ecf_val,Ecf_val_excitation,H_cf_vt,Hcf
+        def SOgetEnergy(Hcf,SO_matrix):
+            Hcf_so = Hcf + SO_matrix
+            Ecf_so_val,Ecf_so_val_excitation,H_cf_so_vt = CEF.Diag(Hcf_so)
+            return Ecf_so_val,Ecf_so_val_excitation,H_cf_so_vt,Hcf_so
+        def SSgetEnergy(Hcf_so,Hss):
+            Hcf_so_ss = Hcf_so + Hss
+            Ecf_so_ss_val,Ecf_so_ss_val_excitation,H_cf_so_ss_vt = CEF.Diag(Hcf_so_ss)
+            return Ecf_so_ss_val,Ecf_so_ss_val_excitation,H_cf_so_ss_vt,Hcf_so_ss
+        def mgetEnergy(Hcf_so_ss,Hm):
+            Hcf_so_ss_m = Hcf_so_ss + Hm
+            Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,H_cf_so_ss_m_vt = CEF.Diag(Hcf_so_ss_m)
+            return Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,H_cf_so_ss_m_vt,Hcf_so_ss_m
         def initialize():
             clear_results()
             self.progress["value"] = 0
@@ -406,19 +520,28 @@ class MyWindow:
                 ######################################################################
                 Hcf = B[0]*O20 + B[1]*O21 + B[2]*O22 + B[3]*O40 + B[4]*O41 + B[5]*O42 + B[6]*O43 + B[7]*O44
                 Ecf_val,Ecf_val_excitation,H_cf_vt = CEF.Diag(Hcf)
+                #Ecf_val,Ecf_val_excitation,H_cf_vt,Hcf = BgetEnergy(B)
                 ######################################################################
                 SO_matrix,SO_val = CEF.SO(ion_value,L_value,S_value)
                 Hcf_so = Hcf + SO_matrix
                 Ecf_so_val,Ecf_so_val_excitation,H_cf_so_vt = CEF.Diag(Hcf_so)
+                
+                
+                #Ecf_so_val,Ecf_so_val_excitation,H_cf_so_vt,Hcf_so = SOgetEnergy(Hcf, SO_matrix)
                 ######################################################################
                 Hss,SS_val = CEF.SS(ion_value,L_value,S_value)
                 Hcf_so_ss = Hcf_so + Hss
                 Ecf_so_ss_val,Ecf_so_ss_val_excitation,H_cf_so_ss_vt = CEF.Diag(Hcf_so_ss)
+                #Ecf_so_ss_val,Ecf_so_ss_val_excitation,H_cf_so_ss_vt,Hcf_so_ss = SSgetEnergy(Hcf_so, Hss)
                 ######################################################################
-                Hg,g_val = CEF.Molecular_Field_Sz(ion_value,L_value,S_value)
-                Hcf_so_ss_g = Hcf_so_ss + Hg
-                Ecf_so_ss_g_val,Ecf_so_ss_g_val_excitation,H_cf_so_ss_g_vt = CEF.Diag(Hcf_so_ss_g)
+                Hm,m_val = CEF.Molecular_Field_Sz(ion_value,L_value,S_value)
+                Hcf_so_ss_m = Hcf_so_ss + Hm
+                Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,H_cf_so_ss_m_vt = CEF.Diag(Hcf_so_ss_m)
+                #Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,H_cf_so_ss_m_vt,Hcf_so_ss_m = mgetEnergy(Hcf_so_ss, Hm)
                 ######################################################################
+                
+                BB = Binsert(B,SO_val,SS_val,m_val)
+                
                 def PlotEnergies(E_val,E_excitation,canvas,title,savePlot=False):
                     global output, fig
 
@@ -499,7 +622,7 @@ class MyWindow:
                     PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,r'Crystal Field')
                     PlotEnergies(Ecf_so_val,Ecf_so_val_excitation,self.cv1,r'Spin-Orbit coupling added')
                     PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
-                    PlotEnergies(Ecf_so_ss_g_val,Ecf_so_ss_g_val_excitation,self.cv3,r'Molecular field added')
+                    PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
                     
                 def SavePlot():
                     ClearCanvas()
@@ -513,7 +636,7 @@ class MyWindow:
                     fig.savefig(file_path+'2.png',dpi=600)
                     PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
                     fig.savefig(file_path+'3.png',dpi=600)
-                    PlotEnergies(Ecf_so_ss_g_val,Ecf_so_ss_g_val_excitation,self.cv3,r'Molecular field added')
+                    PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
                     fig.savefig(file_path+'4.png',dpi=600)
                     
 
@@ -526,13 +649,11 @@ class MyWindow:
                 PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,r'Crystal Field')
                 PlotEnergies(Ecf_so_val,Ecf_so_val_excitation,self.cv1,r'Spin-Orbit coupling added')
                 PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
-                PlotEnergies(Ecf_so_ss_g_val,Ecf_so_ss_g_val_excitation,self.cv3,r'Molecular field added')
+                PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
                 
                 
                 self.progress['value'] = 50
-                
                 win.update()
-                
                 
                 today = datetime.datetime.now()
                 self.results1.insert(tk.END,"\n" + "Date: {today}\n".format(today=today))
@@ -545,10 +666,8 @@ class MyWindow:
                 self.results1.insert(tk.END, typeB(B))
                 self.results1.insert(tk.END,'SO value (meV): ' + str(SO_val) + '\n')
                 self.results1.insert(tk.END,'SS value (meV): ' + str(SS_val) + '\n')
-                self.results1.insert(tk.END,'molecular field (meV): ' + str(g_val) + '\n')
-                
-                
-                
+                self.results1.insert(tk.END,'molecular field (meV): ' + str(m_val) + '\n')
+                                
                 self.progress['value'] = 100
                 win.update()
                 
