@@ -28,7 +28,10 @@ import logging
 import datetime
 import json
 
+import prettytable
+
 logging.basicConfig(filename='tracking.log', encoding='utf-8', level=logging.DEBUG)
+
 
 
 def convert_to_float(frac_str):
@@ -435,19 +438,34 @@ class MyWindow:
                         pass
             return BB
                     
-        def Bget():
+        def Energy_get():
+            val=[]
             for i in frame4.winfo_children():
                 if i.winfo_class() == 'TEntry':
-                    val = i.get()
-                    print(val)
-        
-
-        
-        self.Energies_btn = Button(frame4,text='Get Energies',command=Bget)
-        self.Energies_btn.grid(row=11,column=0,columnspan=2)
+                    val.append(float(i.get()))
+            print('-'*5)
+            print(val)
+            print('-'*5)
+            B = val[:8]
+            print(type(B[7]))
+            SO = val[8]
+            SS = val[9]
+            mol = val[10]
             
-        ##############################################################################
-        def BgetEnergy(B):
+            L_value = int(self.L.get())
+            S_value = convert_to_float(self.S.get())
+
+            CEF = cef.LS(L_value,S_value)
+            ligands = int(self.num_lig.get())
+            lig_positions = self.lig_pos.get('1.0',tk.END)
+            lig_positions = pos(lig_positions)
+            
+            ion_value = self.ion.get().replace('"', '')
+            ion_value = ion_value.replace('"','')
+            Z_value = int(self.Z.get())
+            self.progress['value'] = 20
+            win.update()
+            
             O20 = CEF.Olm(L_value,S_value,2,0)
             O21 = CEF.Olm(L_value,S_value,2,1)
             O22 = CEF.Olm(L_value,S_value,2,2)
@@ -463,21 +481,84 @@ class MyWindow:
             #O4m3 = CEF.Olm(L_value,S_value,4,-3)
             #O4m4 = CEF.Olm(L_value,S_value,4,-4)
             ######################################################################
+            
             Hcf = B[0]*O20 + B[1]*O21 + B[2]*O22 + B[3]*O40 + B[4]*O41 + B[5]*O42 + B[6]*O43 + B[7]*O44
             Ecf_val,Ecf_val_excitation,H_cf_vt = CEF.Diag(Hcf)
-            return Ecf_val,Ecf_val_excitation,H_cf_vt,Hcf
-        def SOgetEnergy(Hcf,SO_matrix):
+            ######################################################################
+            SO_matrix = CEF.SO(ion_value,L_value,S_value,SO)
             Hcf_so = Hcf + SO_matrix
             Ecf_so_val,Ecf_so_val_excitation,H_cf_so_vt = CEF.Diag(Hcf_so)
-            return Ecf_so_val,Ecf_so_val_excitation,H_cf_so_vt,Hcf_so
-        def SSgetEnergy(Hcf_so,Hss):
+            ######################################################################
+            Hss = CEF.SS(ion_value,L_value,S_value,SS)
             Hcf_so_ss = Hcf_so + Hss
             Ecf_so_ss_val,Ecf_so_ss_val_excitation,H_cf_so_ss_vt = CEF.Diag(Hcf_so_ss)
-            return Ecf_so_ss_val,Ecf_so_ss_val_excitation,H_cf_so_ss_vt,Hcf_so_ss
-        def mgetEnergy(Hcf_so_ss,Hm):
+            ######################################################################
+            Hm = CEF.Molecular_Field_Sz(ion_value,L_value,S_value,mol)
             Hcf_so_ss_m = Hcf_so_ss + Hm
             Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,H_cf_so_ss_m_vt = CEF.Diag(Hcf_so_ss_m)
-            return Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,H_cf_so_ss_m_vt,Hcf_so_ss_m
+            ######################################################################
+            
+            popup_energy = tk.Tk()
+            
+            popup_energy_style = ThemedStyle(self.popup)
+            popup_energy_style.theme_use(t)
+            popup_energy.configure(bg=color)
+            popup_energy.wm_title("Energies")
+            
+            frame_popup_energy = Frame(popup_energy,width=180,height=30)
+            frame_popup_energy.grid(row=0,column=0)
+            
+            results_RawEnergy = scrolledtext.ScrolledText(frame_popup_energy,width=60,height=30)
+            results_RawEnergy.grid(row=0,column=1)
+            
+            today = datetime.datetime.now()
+            results_RawEnergy.insert(tk.END,"\n" + "Date: {today}\n".format(today=today))
+            results_RawEnergy.insert(tk.END,"----------- Raw Energies ---------\n")
+            results_RawEnergy.insert(tk.END,"Crystal Field (B): \n")
+            results_RawEnergy.insert(tk.END,Ecf_val)
+            results_RawEnergy.insert(tk.END,"\nCrystal Field (B + SO): \n")
+            results_RawEnergy.insert(tk.END,Ecf_so_val)
+            results_RawEnergy.insert(tk.END,"\nCrystal Field (B + SO + SS): \n")
+            results_RawEnergy.insert(tk.END,Ecf_so_ss_val)
+            results_RawEnergy.insert(tk.END,"\nCrystal Field (B + SO + SS + mol): \n")
+            results_RawEnergy.insert(tk.END,Ecf_so_ss_m_val)
+            
+            results_energy = scrolledtext.ScrolledText(frame_popup_energy,width=60,height=30)
+            results_energy.grid(row=0,column=2)
+            
+            results_energy.insert(tk.END,"\n" + "Date: {today}\n".format(today=today))
+            results_energy.insert(tk.END,"----------- Energies ---------\n")
+            results_energy.insert(tk.END,"Crystal Field (B): \n")
+            results_energy.insert(tk.END,Ecf_val_excitation)
+            results_energy.insert(tk.END,"\nCrystal Field (B + SO): \n")
+            results_energy.insert(tk.END,Ecf_so_val_excitation)
+            results_energy.insert(tk.END,"\nCrystal Field (B + SO + SS): \n")
+            results_energy.insert(tk.END,Ecf_so_ss_val_excitation)
+            results_energy.insert(tk.END,"\nCrystal Field (B + SO + SS + mol): \n")
+            results_energy.insert(tk.END,Ecf_so_ss_m_val_excitation)
+            
+            results_energy_EV = scrolledtext.ScrolledText(frame_popup_energy,width=60,height=30)
+            results_energy_EV.grid(row=0,column=3)
+            
+            results_energy_EV.insert(tk.END,"\n" + "Date: {today}\n".format(today=today))
+            results_energy_EV.insert(tk.END,"----------- EigenVectors ---------\n")
+            results_energy_EV.insert(tk.END,"Crystal Field (B): \n")
+            results_energy_EV.insert(tk.END,H_cf_vt)
+            results_energy_EV.insert(tk.END,"\nCrystal Field (B + SO): \n")
+            results_energy_EV.insert(tk.END,H_cf_so_vt)
+            results_energy_EV.insert(tk.END,"\nCrystal Field (B + SO + SS): \n")
+            results_energy_EV.insert(tk.END,H_cf_so_ss_vt)
+            results_energy_EV.insert(tk.END,"\nCrystal Field (B + SO + SS + mol): \n")
+            results_energy_EV.insert(tk.END,H_cf_so_ss_m_vt)
+            
+            logging.info(results_RawEnergy.get("1.0", tk.END) + "\n")
+            logging.info(results_energy.get("1.0", tk.END) + "\n")
+            logging.info(results_energy_EV.get("1.0", tk.END) + "\n\n\n\n\n\n\n")
+        
+        self.Energies_btn = Button(frame4,text='Get Energies',command=Energy_get)
+        self.Energies_btn.grid(row=11,column=0,columnspan=2)
+        
+
         def initialize():
             clear_results()
             self.progress["value"] = 0
@@ -500,8 +581,6 @@ class MyWindow:
                 self.progress['value'] = 20
                 win.update()
                 
-                ######################################################################
-                B = CEF.PC(ion_value,L_value,S_value,lig_positions,Z_value)
                 
                 O20 = CEF.Olm(L_value,S_value,2,0)
                 O21 = CEF.Olm(L_value,S_value,2,1)
@@ -518,6 +597,8 @@ class MyWindow:
                 #O4m3 = CEF.Olm(L_value,S_value,4,-3)
                 #O4m4 = CEF.Olm(L_value,S_value,4,-4)
                 ######################################################################
+                B = CEF.PC(ion_value,L_value,S_value,lig_positions,Z_value)
+                
                 Hcf = B[0]*O20 + B[1]*O21 + B[2]*O22 + B[3]*O40 + B[4]*O41 + B[5]*O42 + B[6]*O43 + B[7]*O44
                 Ecf_val,Ecf_val_excitation,H_cf_vt = CEF.Diag(Hcf)
                 #Ecf_val,Ecf_val_excitation,H_cf_vt,Hcf = BgetEnergy(B)
@@ -563,7 +644,7 @@ class MyWindow:
                     ax2.set_ylabel('Arb. Units')
                     ax2.set_yticklabels('')
                     ax2.set_yticks([])
-                    ax2.set_title('Crystal Field excitations')
+                    ax2.set_title('Crystal Field excitations \n'+ title)
                     ax2.set_ylim([0.95,1.05])
                     fig.tight_layout()
                     
@@ -619,7 +700,7 @@ class MyWindow:
                     
                 def RePlot():
                     ClearCanvas()
-                    PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,r'Crystal Field')
+                    PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,'')
                     PlotEnergies(Ecf_so_val,Ecf_so_val_excitation,self.cv1,r'Spin-Orbit coupling added')
                     PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
                     PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
