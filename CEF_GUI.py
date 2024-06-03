@@ -6,8 +6,12 @@ Created on Wed Dec 29 17:18:53 2021
 """
 import sys
 import os
-cef_dir = r'C:\Users\brian\OneDrive - University of Tennessee\Desktop\Research\Python program\CEF calculations\CEF'
-sys.path.append(cef_dir)
+try:
+    cef_dir = r'C:\Users\brian\OneDrive - University of Tennessee\Desktop\Research\Python program\CEF calculations\CEF'
+    sys.path.append(cef_dir)
+except:
+    base_path = os.path.abspath(".")
+    sys.path.append(base_path)
 import Crystal_Field_Calculations as cef
 import tkinter as tk
 from tkinter.ttk import *
@@ -17,18 +21,15 @@ from tkinter import scrolledtext, Menu, Canvas
 from ttkthemes import ThemedTk,ThemedStyle
 
 from PIL import ImageTk, Image, ImageDraw
-import cv2
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,NavigationToolbar2Tk) 
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,NavigationToolbar2Tk
 
 import logging
 import datetime
 import json
-
-import prettytable
 
 logging.basicConfig(filename='tracking.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -57,7 +58,7 @@ def remove_values_from_list(the_list, val):
 
 
 def r_l():
-    f = open('r_l.txt','r')
+    f = open('data_files/r_l.txt','r')
     lines = f.readlines()
     f.close()
     i = []
@@ -75,7 +76,7 @@ for i in rl:
     ions.append(i[0])
     
 def theta():
-    f = open('theta.txt','r')
+    f = open('data_files/theta.txt','r')
     lines = f.readlines()
     f.close()
     i = []
@@ -90,7 +91,7 @@ def theta():
 theta_ion = theta()
 
 def ParamR():
-    f = open('r_l.txt','r')
+    f = open('data_files/r_l.txt','r')
     lines = f.readlines()
     f.close()
     paramR = tk.Tk()
@@ -101,7 +102,7 @@ def ParamR():
         paramR_text.insert(tk.END,line)
         
 def ParamTh():
-    f = open('theta.txt','r')
+    f = open('data_files/theta.txt','r')
     lines = f.readlines()
     f.close()
     paraTh = tk.Tk()
@@ -554,6 +555,110 @@ class MyWindow:
             logging.info(results_RawEnergy.get("1.0", tk.END) + "\n")
             logging.info(results_energy.get("1.0", tk.END) + "\n")
             logging.info(results_energy_EV.get("1.0", tk.END) + "\n\n\n\n\n\n\n")
+            
+            def PlotEnergies(E_val,E_excitation,canvas,title,savePlot=False):
+                global output, fig
+
+                fig = Figure()
+                
+                ax1 = fig.add_subplot(221)
+                ax1.eventplot(E_val,orientation='vertical',linelength=0.05,linestyles='solid',colors='r')
+                ax1.tick_params(axis='x',which='both',bottom=False,top=False)
+                ax1.set_xlabel(title)
+                ax1.set_ylabel('Energy (meV)')
+                ax1.set_xticklabels('')
+                ax1.set_title('Point Charge Model')
+                ax1.set_xlim([0.95,1.05])
+                
+                ax2 = fig.add_subplot(222)
+                ax2.eventplot(E_excitation,orientation='horizontal',linelength=0.05,linestyles='solid',colors='b')
+                ax2.tick_params(axis='y',which='both',bottom=False,top=False)
+                ax2.set_xlabel('Energy (meV)')
+                ax2.set_ylabel('Arb. Units')
+                ax2.set_yticklabels('')
+                ax2.set_yticks([])
+                ax2.set_title('Crystal Field excitations \n'+ title)
+                ax2.set_ylim([0.95,1.05])
+                fig.tight_layout()
+                
+                output = FigureCanvasTkAgg(fig, master=canvas)
+                
+                output.draw()
+                output.get_tk_widget().pack()
+
+            
+            
+            def PopUp():
+                self.popup = tk.Tk()
+                popup_style = ThemedStyle(self.popup)
+                popup_style.theme_use(t)
+                self.popup.configure(bg=color)
+                self.popup.wm_title("Plots")
+                
+                self.frame_popup = Frame(self.popup,width=1200,height=700)
+                self.frame_popup.grid(row=0,column=0)
+                
+                self.cv = Canvas(self.frame_popup)
+                self.cv.grid(row=0,column=0)
+                self.cv1 = Canvas(self.frame_popup)
+                self.cv1.grid(row=0,column=1)
+                self.cv2 = Canvas(self.frame_popup)
+                self.cv2.grid(row=1,column=0)
+                self.cv3 = Canvas(self.frame_popup)
+                self.cv3.grid(row=1,column=1)
+                
+                self.frame_popup1 = Frame(self.popup)
+                self.frame_popup1.grid(row=0,column=1)
+                self.popup_btn = Button(self.frame_popup1,text='Save',command=SavePlot)
+                self.popup_btn.grid(row=0,column=1)
+                self.popup_btn1 = Button(self.frame_popup1,text='Clear',command=ClearCanvas)
+                self.popup_btn1.grid(row=1,column=1)
+                self.popup_btn2 = Button(self.frame_popup1,text='RePlot',command=RePlot)
+                self.popup_btn2.grid(row=2,column=1)
+            
+            def ClearCanvas():
+                self.cv.destroy()
+                self.cv1.destroy()
+                self.cv2.destroy()
+                self.cv3.destroy()
+                self.cv = Canvas(self.frame_popup)
+                self.cv.grid(row=0,column=0)
+                self.cv1 = Canvas(self.frame_popup)
+                self.cv1.grid(row=0,column=1)
+                self.cv2 = Canvas(self.frame_popup)
+                self.cv2.grid(row=1,column=0)
+                self.cv3 = Canvas(self.frame_popup)
+                self.cv3.grid(row=1,column=1)
+                
+                
+            def RePlot():
+                ClearCanvas()
+                PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,'')
+                PlotEnergies(Ecf_so_val,Ecf_so_val_excitation,self.cv1,r'Spin-Orbit coupling added')
+                PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
+                PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
+                
+            def SavePlot():
+                ClearCanvas()
+                current_directory = askdirectory()
+                file_name = "test"
+                file_path = os.path.join(current_directory,file_name)
+                print(file_path)
+                PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,r'Crystal Field')
+                fig.savefig(file_path+'1.png',dpi=600)
+                PlotEnergies(Ecf_so_val,Ecf_so_val_excitation,self.cv1,r'Spin-Orbit coupling added')
+                fig.savefig(file_path+'2.png',dpi=600)
+                PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
+                fig.savefig(file_path+'3.png',dpi=600)
+                PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
+                fig.savefig(file_path+'4.png',dpi=600)
+            
+            PopUp()
+
+            PlotEnergies(Ecf_val,Ecf_val_excitation,self.cv,r'Crystal Field')
+            PlotEnergies(Ecf_so_val,Ecf_so_val_excitation,self.cv1,r'Spin-Orbit coupling added')
+            PlotEnergies(Ecf_so_ss_val,Ecf_so_ss_val_excitation,self.cv2,r'Spin-Spin correlation added')
+            PlotEnergies(Ecf_so_ss_m_val,Ecf_so_ss_m_val_excitation,self.cv3,r'Molecular field added')
         
         self.Energies_btn = Button(frame4,text='Get Energies',command=Energy_get)
         self.Energies_btn.grid(row=11,column=0,columnspan=2)
@@ -807,43 +912,46 @@ class MyWindow:
         ####################################################################################
         
 
-#styles = ThemedStyle().tk.call('ttk::themes')
-#t = styles[12] # 'arc'
-#t = styles[17] # 'yaru'
-#t = styles[14] # 'radiance'
-#t = styles[9] # 'equilux'
-t = 'arc'
-start=StartUp(t)
 
-
-window = tk.Tk()
-
-style = ThemedStyle(window)
-'''
-def styleChange():
+if __name__ == '__main__':
+    
+    #styles = ThemedStyle().tk.call('ttk::themes')
+    #t = styles[12] # 'arc'
+    #t = styles[17] # 'yaru'
+    #t = styles[14] # 'radiance'
+    #t = styles[9] # 'equilux'
+    t = 'arc'
+    start=StartUp(t)
+    
+    
+    window = tk.Tk()
+    
+    style = ThemedStyle(window)
+    '''
+    def styleChange():
+        style.theme_use(t)
+        color = Style().lookup("TFrame", "background", default="black")
+        window.configure(bg=color)
+    '''
     style.theme_use(t)
     color = Style().lookup("TFrame", "background", default="black")
     window.configure(bg=color)
-'''
-style.theme_use(t)
-color = Style().lookup("TFrame", "background", default="black")
-window.configure(bg=color)
-
-
-mywin=MyWindow(window)
-window.title('Crystal Field calculation')
-
-
-#screen_width = window.winfo_screenwidth()
-#screen_height = window.winfo_screenheight()
-#window.geometry('%dx%d' % (screen_width-20, screen_height-100))
-window.eval('tk::PlaceWindow . center')
-
-#window.attributes('-disabled', True)
-#window.resizable(0,0)
-
-
-window.mainloop()
-
-
+    
+    
+    mywin=MyWindow(window)
+    window.title('Crystal Field calculation')
+    
+    
+    #screen_width = window.winfo_screenwidth()
+    #screen_height = window.winfo_screenheight()
+    #window.geometry('%dx%d' % (screen_width-20, screen_height-100))
+    window.eval('tk::PlaceWindow . center')
+    
+    #window.attributes('-disabled', True)
+    #window.resizable(0,0)
+    
+    
+    window.mainloop()
+    
+    
 
